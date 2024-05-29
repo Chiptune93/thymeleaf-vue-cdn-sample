@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: head"></head>
+<body>
+<div th:replace="layout/header :: header"></div>
+<div id="app">
+    <greeting-message></greeting-message>
+</div>
+<div th:replace="layout/footer :: footer"></div>
+<script type="module">
+    import GreetingMessage from '../components/GreetingComponent.vue';
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const app = Vue.createApp({
+            components: {
+                'greeting-message': GreetingMessage,
+            }
+        });
+        app.mount('#app');
+    });
+
+</script>
+</body>
+</html>
