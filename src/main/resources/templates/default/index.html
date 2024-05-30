@@ -7,6 +7,22 @@
     <greeting-message></greeting-message>
 </div>
 <div th:replace="layout/footer :: footer"></div>
-<script type="module" th:src="@{/js/app.js}"></script>
+<script type="module">
+    import GreetingMessage from '/js/greetingComponent.js';
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const app = Vue.createApp({
+            components: {
+                'greeting-message': GreetingMessage,
+            },
+            data: function () {
+                return {
+                }
+            }
+        });
+        app.mount('#app');
+    });
+
+</script>
 </body>
 </html>

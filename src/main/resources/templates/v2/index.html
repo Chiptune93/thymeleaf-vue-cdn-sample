@@ -1,19 +1,42 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/header :: head"></head>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Thymeleaf Demo</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script src="https://unpkg.com/vue@3.2.47/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
+</head>
 <body>
 <div th:replace="layout/header :: header"></div>
 <div id="app">
     <greeting-message></greeting-message>
 </div>
 <div th:replace="layout/footer :: footer"></div>
-<script type="module">
-    import GreetingMessage from '../components/GreetingComponent.vue';
-
-    document.addEventListener('DOMContentLoaded', function() {
+<script th:inline="javascript">
+    const options = {
+        moduleCache: {
+            vue: Vue
+        },
+        async getFile(url) {
+            const res = await fetch(url);
+            if (!res.ok)
+                throw Object.assign(new Error(res.statusText + ' ' + url), {res});
+            return {
+                getContentData: asBinary => asBinary ? res.arrayBuffer() : res.text(),
+            }
+        },
+        addStyle(textContent) {
+            const style = Object.assign(document.createElement('style'), {textContent});
+            const ref = document.head.getElementsByTagName('style')[0] || null;
+            document.head.insertBefore(style, ref);
+        },
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        const {loadModule} = window['vue3-sfc-loader'];
         const app = Vue.createApp({
             components: {
-                'greeting-message': GreetingMessage,
+                'greeting-message': Vue.defineAsyncComponent(() => loadModule('components/GreetingComponent.vue', options))
             }
         });
         app.mount('#app');

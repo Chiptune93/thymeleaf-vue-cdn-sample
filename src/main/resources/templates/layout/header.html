@@ -5,14 +5,17 @@
     <title th:text="${title}">Thymeleaf Demo</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <script src="https://unpkg.com/vue@3.2.47/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
 </head>
 <body>
 <header>
     <h1>Thymeleaf Demo</h1>
     <nav>
         <ul>
-            <li><a th:href="@{/}">Home</a></li>
-            <li><a th:href="@{/items}">Items</a></li>
+            <li><a th:href="@{/default}">Home</a></li>
+            <li><a th:href="@{/v2}">Home 2</a></li>
+            <li><a th:href="@{/default/items}">Items</a></li>
+            <li><a th:href="@{/v2/items}">Items 2</a></li>
         </ul>
     </nav>
 </header>
